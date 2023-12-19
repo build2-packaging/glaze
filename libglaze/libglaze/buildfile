@@ -2,10 +2,21 @@ intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 #import xxxx_libs += libhello%lib{hello}
 
+sys_libs =
+switch $cxx.target.system
+{
+  case 'freebsd'
+  {
+    sys_libs += \
+      -ldl
+  }
+}
+
 lib{glaze}: libul{glaze}: {hxx ixx txx cxx}{** -version} $impl_libs $intf_libs
 
 # Build options.
 #
+cxx.libs += $sys_libs
 cxx.poptions =+ "-I$out_root" "-I$src_base/include"
 
 # Export options.
@@ -13,7 +24,7 @@ cxx.poptions =+ "-I$out_root" "-I$src_base/include"
 lib{glaze}:
 {
   cxx.export.poptions = "-I$out_root" "-I$src_base/include"
-  cxx.export.libs = $intf_libs
+  cxx.export.libs = $intf_libs $sys_libs
 }
 
 # Export all symbols for windows (MSVC part)

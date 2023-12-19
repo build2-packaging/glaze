@@ -6,7 +6,10 @@ import libs += \
 import eigen = Eigen%lib{Eigen}
 
 # See: https://github.com/stephenberry/glaze/blob/b5fac69f4ceee362b205e73f27bf3b29a7a621de/tests/CMakeLists.txt
-switch $cxx.target.system: regex.match
+info $cxx.id
+# info $cxx.target.system
+# dsads
+switch $cxx.id: regex.match
 {
   case 'gcc' | 'clang*'
   {
@@ -19,7 +22,7 @@ switch $cxx.target.system: regex.match
     cxx.coptions += \
       -Wa,-mbig-obj
   }
-  case 'win32-msvc'
+  case 'msvc' | 'msvc-clang'
   {
     cxx.coptions += \
       /Zc:preprocessor \
