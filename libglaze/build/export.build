@@ -1,0 +1,6 @@
+$out_root/
+{
+  include libglaze/
+}
+
+export $out_root/libglaze/$import.target

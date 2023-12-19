@@ -1,0 +1,53 @@
+libs =
+import libs += \
+  libglaze%lib{glaze} \
+  libboost-ext-ut%lib{ut}
+
+import eigen = Eigen%lib{Eigen}
+
+# See: https://github.com/stephenberry/glaze/blob/b5fac69f4ceee362b205e73f27bf3b29a7a621de/tests/CMakeLists.txt
+switch $cxx.target.system: regex.match
+{
+  case 'gcc' | 'clang*'
+  {
+    cxx.coptions += \
+      -fno-exceptions \
+      -fno-rtti
+  }
+  case 'mingw32'
+  {
+    cxx.coptions += \
+      -Wa,-mbig-obj
+  }
+  case 'win32-msvc'
+  {
+    cxx.coptions += \
+      /Zc:preprocessor \
+      /bigobj \
+      /GR- \
+      /wd4459
+  }
+}
+
+for d: tests/dir{*_test -eigen_test -lib_test}
+{
+  # Remove the directory type & trailing slash.
+  dd = $path.leaf($name.directory($d))
+  n = $regex.replace("$dd", "[/\\\]", "")
+  ./: exe{$(n)}: tests/$(n)/{hxx ixx txx cxx}{*} $libs testscript
+}
+
+./: exe{eigen_test}: tests/eigen_test/{hxx ixx txx cxx}{*} $libs $eigen testscript
+
+libs{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
+./: exe{lib_test}: tests/lib_test/{hxx ixx txx cxx}{*} $libs libs{test_lib} testscript
+
+# See: https://github.com/stephenberry/glaze/blob/b5fac69f4ceee362b205e73f27bf3b29a7a621de/tests/lib_test/CMakeLists.txt#L11
+## Replace backwards slashes
+out_base_cleaned = $regex.replace("$out_base", "[\\\]", "/")
+tests/lib_test/obj{lib_test}:
+{
+  cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$out_base_cleaned\""
+}
+
+cxx.poptions =+ "-I$out_root" "-I$src_base"

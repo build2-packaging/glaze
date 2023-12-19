@@ -1,0 +1,6 @@
+[submodule "glaze"]
+	path = glaze
+	url = https://github.com/stephenberry/glaze
+[submodule "upstream"]
+	path = upstream
+	url = https://github.com/stephenberry/glaze

@@ -1,0 +1,15 @@
+: 1
+name: libglaze
+version: 1.9.7-a.0.z
+type: lib
+language: c++
+project: glaze
+summary: One of the fastest JSON libraries in the world. Glaze reads and writes from object memory, simplifying interfaces and offering incredible performance.
+license: MIT
+description-file: README.md
+package-description-file: PACKAGE-README.md
+url: https://github.com/stephenberry/glaze
+package-url: https://github.com/stephenberry/glaze
+depends: * build2 >= 0.16.0
+depends: * bpkg >= 0.16.0
+tests: libglaze-tests == $
