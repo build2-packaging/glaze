@@ -7,7 +7,6 @@ project: glaze
 summary: libglaze-tests C++ executable
 license: MIT
 description-file: README.md
-package-description-file: PACKAGE-README.md
 url: https://github.com/stephenberry/glaze
 package-url: https://github.com/stephenberry/glaze
 depends: * build2 >= 0.16.0
