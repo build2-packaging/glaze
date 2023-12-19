@@ -2,7 +2,7 @@ intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 #import xxxx_libs += libhello%lib{hello}
 
-lib{glaze}: libul{glaze}: {hxx ixx txx cxx}{** -version} hxx{version} $impl_libs $intf_libs
+lib{glaze}: libul{glaze}: {hxx ixx txx cxx}{** -version} $impl_libs $intf_libs
 
 # Build options.
 #
