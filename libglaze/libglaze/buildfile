@@ -35,7 +35,7 @@ else
 # Install into the libglaze/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
 #
-{hxx ixx txx}{*}:
+include/glaze/{hxx ixx txx}{**}:
 {
   install         = include/glaze/
   install.subdirs = true
