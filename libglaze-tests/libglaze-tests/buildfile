@@ -6,16 +6,9 @@ import libs += \
 import eigen = Eigen%lib{Eigen}
 
 # See: https://github.com/stephenberry/glaze/blob/b5fac69f4ceee362b205e73f27bf3b29a7a621de/tests/CMakeLists.txt
-switch $cxx.id: path.match, $cxx.target.system
+switch $cxx.id: path.match, $cxx.target.system: path.match
 {
-  case 'gcc' | 'clang*'
-  {
-    cxx.coptions += \
-      -fno-exceptions \
-      -fno-rtti \
-      -Wno-missing-braces
-  }
-  case 'mingw32'
+  case 'gcc', 'mingw32'
   {
     cxx.coptions += \
       -Wa,-mbig-obj
@@ -27,6 +20,13 @@ switch $cxx.id: path.match, $cxx.target.system
       /bigobj \
       /GR- \
       /wd4459
+  }
+  case 'gcc' | 'clang*'
+  {
+    cxx.coptions += \
+      -fno-exceptions \
+      -fno-rtti \
+      -Wno-missing-braces
   }
 }
 
