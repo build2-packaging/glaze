@@ -3,13 +3,10 @@ impl_libs = # Implementation dependencies.
 #import xxxx_libs += libhello%lib{hello}
 
 sys_libs =
-switch $cxx.target.system
+if ($cxx.target.class != 'windows')
 {
-  case 'freebsd'
-  {
-    sys_libs += \
-      -ldl
-  }
+  sys_libs += \
+    -ldl
 }
 
 lib{glaze}: libul{glaze}: {hxx ixx txx cxx}{** -version} $impl_libs $intf_libs
