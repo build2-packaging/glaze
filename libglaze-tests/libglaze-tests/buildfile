@@ -6,16 +6,14 @@ import libs += \
 import eigen = Eigen%lib{Eigen}
 
 # See: https://github.com/stephenberry/glaze/blob/b5fac69f4ceee362b205e73f27bf3b29a7a621de/tests/CMakeLists.txt
-info $cxx.id
-# info $cxx.target.system
-# dsads
-switch $cxx.id: regex.match
+switch $cxx.id: path.match, $cxx.target.system
 {
   case 'gcc' | 'clang*'
   {
     cxx.coptions += \
       -fno-exceptions \
-      -fno-rtti
+      -fno-rtti \
+      -Wno-missing-braces
   }
   case 'mingw32'
   {
@@ -38,6 +36,22 @@ for d: tests/dir{*_test -eigen_test -lib_test}
   dd = $path.leaf($name.directory($d))
   n = $regex.replace("$dd", "[/\\\]", "")
   ./: exe{$(n)}: tests/$(n)/{hxx ixx txx cxx}{*} $libs testscript
+
+  switch $n
+  {
+    # These tests needs exceptions enabled
+    case 'exceptions_test'
+    {
+      switch $cxx.id: path.match, $cxx.target.system
+      {
+        case 'gcc' | 'clang*'
+        {
+          cxx.coptions += \
+            -fexceptions
+        }
+      }
+    }
+  }
 }
 
 ./: exe{eigen_test}: tests/eigen_test/{hxx ixx txx cxx}{*} $libs $eigen testscript
