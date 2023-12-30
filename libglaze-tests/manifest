@@ -1,6 +1,6 @@
 : 1
 name: libglaze-tests
-version: 1.9.9
+version: 1.9.9+1
 type: exe
 language: c++
 project: glaze
@@ -8,7 +8,7 @@ summary: libglaze-tests C++ executable
 license: MIT
 description-file: README.md
 url: https://github.com/stephenberry/glaze
-package-url: https://github.com/stephenberry/glaze
+package-url: https://github.com/build2-packaging/glaze
 depends: * build2 >= 0.16.0
 depends: * bpkg >= 0.16.0
 depends: Eigen ^3.4.0

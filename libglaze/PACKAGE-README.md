@@ -9,11 +9,11 @@ The packaging code is licensed under the MIT License, the upstream artifacts are
 You can simply add this package as dependency to your project by specifying it in your `manifest`:
 
 ```
-depends: libglaze ^1.9.7
+depends: libglaze ^1.9.9
 ```
 
 Then just pick the targets that you need:
 
 ```
-import libs  = glaze%lib{glaze}
+import libs = glaze%lib{glaze}
 ```
