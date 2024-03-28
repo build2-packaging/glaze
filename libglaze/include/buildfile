@@ -9,6 +9,11 @@ lib{glaze}:
   cxx.export.poptions = "-I$src_pfx"
 }
 
+if ($cxx.target.system != 'win32-msvc')
+{
+  lib{glaze}: cxx.export.libs += -pthread
+}
+
 # Install recreating subdirectories.
 #
 {hxx}{*}:
