@@ -1,22 +1,17 @@
-intf_libs = # Interface dependencies.
-#import xxxx_libs += libhello%lib{hello}
-
-lib{glaze}: {hxx ixx txx}{**} $intf_libs
+lib{glaze}: {hxx}{**}
 
 # Export options.
 #
-out_pfx = [dir_path] $out_root/include/
 src_pfx = [dir_path] $src_root/include/
 
 lib{glaze}:
 {
-  cxx.export.poptions = "-I$out_pfx" "-I$src_pfx"
-  cxx.export.libs = $intf_libs
+  cxx.export.poptions = "-I$src_pfx"
 }
 
 # Install recreating subdirectories.
 #
-{hxx ixx txx}{*}:
+{hxx}{*}:
 {
   install         = include/
   install.subdirs = true
