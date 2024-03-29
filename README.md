@@ -1,6 +1,6 @@
 # glaze - JSON and interface library for modern C++
 
-This is a `build2` package reporitory for [`glaze`](https://github.com/stephenberry/glaze),
+This is a `build2` package repository for [`glaze`](https://github.com/stephenberry/glaze),
 an extremely fast, in memory, JSON and interface library for modern C++.
 
 This file contains setup instructions and other details that are more
