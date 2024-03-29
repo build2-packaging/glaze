@@ -1,0 +1,17 @@
+: 1
+name: libglaze-tests
+version: 2.4.0-a.0.z
+type: exe
+language: c++
+project: glaze
+summary: Test suit for libglaze.
+license: MIT ; MIT License.
+package-description-file: PACKAGE-README.md
+url: https://github.com/stephenberry/glaze
+email: stephenberry.developer@gmail.com
+package-url: https://github.com/build2-packaging/glaze
+package-email: packaging@build2.org ; Mailing list.
+depends: * build2 >= 0.16.0
+depends: * bpkg >= 0.16.0
+depends: Eigen ^3.4.0
+depends: libboost-ext-ut ^2.0.1

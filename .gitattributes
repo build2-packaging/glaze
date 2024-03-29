@@ -19,3 +19,4 @@
 #*.png binary
 
 libglaze/include/glaze symlink=dir
+libglaze/docs          symlink=dir
