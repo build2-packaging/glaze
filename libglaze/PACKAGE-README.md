@@ -1,7 +1,7 @@
-# libglaze - One of the fastest JSON libraries in the world
+# libglaze - Extremely fast, in memory, JSON and interface library for modern C++
 
-This is a `build2` package for the [`<UPSTREAM-NAME>`](https://<UPSTREAM-URL>)
-C++ library. It provides <SUMMARY-OF-FUNCTIONALITY>.
+This is a `build2` package for the [`glaze`](https://github.com/stephenberry/glaze)
+C++ library. It provides an extremely fast, in memory, JSON and interface library for modern C++.
 
 
 ## Usage
@@ -10,33 +10,11 @@ To start using `libglaze` in your project, add the following `depends`
 value to your `manifest`, adjusting the version constraint as appropriate:
 
 ```
-depends: libglaze ^<VERSION>
+depends: libglaze ^2.4.0
 ```
 
 Then import the library in your `buildfile`:
 
 ```
-import libs = libglaze%lib{<TARGET>}
+import libs = libglaze%lib{glaze}
 ```
-
-
-## Importable targets
-
-This package provides the following importable targets:
-
-```
-lib{<TARGET>}
-```
-
-<DESCRIPTION-OF-IMPORTABLE-TARGETS>
-
-
-## Configuration variables
-
-This package provides the following configuration variables:
-
-```
-[bool] config.libglaze.<VARIABLE> ?= false
-```
-
-<DESCRIPTION-OF-CONFIG-VARIABLES>

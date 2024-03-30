@@ -4,7 +4,8 @@ version: 2.4.0-a.0.z
 type: lib,binless
 language: c++
 project: glaze
-summary: One of the fastest JSON libraries in the world
+summary: JSON and interface library for modern C++
+topics: json, json rpc 2.0, csv, beve, serialization
 license: MIT ; MIT License.
 description-file: README.md
 package-description-file: PACKAGE-README.md
