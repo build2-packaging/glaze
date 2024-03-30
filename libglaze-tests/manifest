@@ -6,7 +6,6 @@ language: c++
 project: glaze
 summary: Test suit for libglaze.
 license: MIT ; MIT License.
-package-description-file: PACKAGE-README.md
 url: https://github.com/stephenberry/glaze
 email: stephenberry.developer@gmail.com
 package-url: https://github.com/build2-packaging/glaze
