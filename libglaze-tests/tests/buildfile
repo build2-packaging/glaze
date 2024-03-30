@@ -26,15 +26,17 @@ tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
 # eigen_test
 ./: exe{eigen_test}: tests/eigen_test/{hxx cxx}{*} $libs $eigen testscript
 
-# test_lib
-libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
+# lib_test
+# See: https://github.com/stephenberry/glaze/blob/1c40c477ac0ba636faa539cb65beaaab58eef1fc/tests/lib_test/CMakeLists.txt#L11
 ./: exe{lib_test}: tests/lib_test/{hxx cxx}{*} $libs libs{test_lib} testscript
 
-# See: https://github.com/stephenberry/glaze/blob/1c40c477ac0ba636faa539cb65beaaab58eef1fc/tests/lib_test/CMakeLists.txt#L11
+libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
 libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
 def{test_lib}: libul{test_lib}
 tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
 
+if($cxx.target.class != 'windows')
+  exe{lib_test}: cxx.coptions += -ldl
 if ($cxx.target.system == 'mingw32')
   cxx.loptions += -Wl,--export-all-symbols
 
