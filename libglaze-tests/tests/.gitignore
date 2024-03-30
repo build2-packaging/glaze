@@ -1,0 +1,3 @@
+# Testscript output directory (can be symlink).
+#
+*_test

@@ -18,5 +18,6 @@
 #
 #*.png binary
 
-libglaze/include/glaze symlink=dir
-libglaze/docs          symlink=dir
+libglaze/include/glaze     symlink=dir
+libglaze/docs              symlink=dir
+libglaze-tests/tests/tests symlink=dir

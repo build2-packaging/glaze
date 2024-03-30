@@ -1,0 +1,67 @@
+import libs = libglaze%lib{glaze} \
+              libboost-ext-ut%lib{boost-ext-ut}
+
+import eigen = Eigen%lib{Eigen}
+
+# Unit tests.
+#
+exe{*}:
+{
+  test = true
+  install = false
+}
+
+for t: tests/dir{*_test -eigen_test -exceptions_test -lib_test}
+{
+  d = $directory($t)
+  n = $name($t)
+
+  ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
+}
+
+# exception_test
+./: exe{exceptions_test}: tests/exceptions_test/{hxx cxx}{*} $libs testscript
+tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
+
+# eigen_test
+./: exe{eigen_test}: tests/eigen_test/{hxx cxx}{*} $libs $eigen testscript
+
+# test_lib
+libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
+./: exe{lib_test}: tests/lib_test/{hxx cxx}{*} $libs libs{test_lib} testscript
+
+# See: https://github.com/stephenberry/glaze/blob/1c40c477ac0ba636faa539cb65beaaab58eef1fc/tests/lib_test/CMakeLists.txt#L11
+libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
+def{test_lib}: libul{test_lib}
+tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
+
+if ($cxx.target.system == 'mingw32')
+  cxx.loptions += -Wl,--export-all-symbols
+
+# Common build options.
+#
+# See: https://github.com/stephenberry/glaze/blob/1c40c477ac0ba636faa539cb65beaaab58eef1fc/tests/CMakeLists.txt
+switch $cxx.id: path.match, $cxx.target.system: path.match
+{
+  case 'gcc' | 'clang*'
+  {
+    cxx.coptions += \
+      -fno-rtti \
+      -fno-exceptions \
+      -Wno-missing-braces
+  }
+  case 'gcc', 'mingw32'
+  {
+    cxx.coptions += \
+      -Wa,-mbig-obj
+  }
+  case 'msvc' | 'msvc-clang'
+  {
+    cxx.coptions += \
+      /permissive- \
+      /Zc:preprocessor \
+      /bigobj \
+      /GR- \
+      /wd4459
+  }
+}
