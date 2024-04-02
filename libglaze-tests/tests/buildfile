@@ -35,10 +35,10 @@ libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
 def{test_lib}: libul{test_lib}
 tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
 
-if($cxx.target.class != 'windows')
-  exe{lib_test}: cxx.coptions += -ldl
+if ($cxx.target.class != 'windows')
+  exe{lib_test}: cxx.loptions += -ldl
 if ($cxx.target.system == 'mingw32')
-  cxx.loptions += -Wl,--export-all-symbols
+  libs{test_lib}: cxx.loptions += -Wl,--export-all-symbols
 
 # Common build options.
 #
