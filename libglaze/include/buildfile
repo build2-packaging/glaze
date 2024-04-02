@@ -11,6 +11,7 @@ lib{glaze}:
 
 if ($cxx.target.system != 'win32-msvc')
 {
+  cxx.libs += -pthread
   lib{glaze}: cxx.export.libs += -pthread
 }
 
