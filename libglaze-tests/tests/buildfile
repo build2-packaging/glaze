@@ -61,8 +61,6 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
   {
     cxx.coptions += \
       /permissive- \
-      /Zc:preprocessor \
-      /Zc:lambda \
       /bigobj \
       /GR- \
       /wd4459 \
