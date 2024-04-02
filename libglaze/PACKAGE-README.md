@@ -1,7 +1,7 @@
-# libglaze - Extremely fast, in memory, JSON and interface library for modern C++
+# libglaze - In memory, JSON and interface library for C++
 
 This is a `build2` package for the [`glaze`](https://github.com/stephenberry/glaze)
-C++ library. It provides an extremely fast, in memory, JSON and interface library for modern C++.
+C++ library. It provides an in memory, JSON and interface library for C++.
 
 
 ## Usage

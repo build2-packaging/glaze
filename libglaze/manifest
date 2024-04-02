@@ -4,7 +4,7 @@ version: 2.4.0-a.0.z
 type: lib,binless
 language: c++
 project: glaze
-summary: JSON and interface library for modern C++
+summary: JSON and interface library for C++
 topics: json, json rpc 2.0, csv, beve, serialization
 license: MIT ; MIT License.
 description-file: README.md

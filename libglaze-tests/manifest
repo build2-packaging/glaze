@@ -4,7 +4,7 @@ version: 2.4.0-a.0.z
 type: exe
 language: c++
 project: glaze
-summary: JSON and interface library for modern C++ ; Tests
+summary: JSON and interface library for C++ ; Tests
 license: MIT ; MIT License.
 url: https://github.com/stephenberry/glaze
 email: stephenberry.developer@gmail.com
