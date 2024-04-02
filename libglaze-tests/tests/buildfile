@@ -36,7 +36,7 @@ def{test_lib}: libul{test_lib}
 tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
 
 if ($cxx.target.class != 'windows')
-  exe{lib_test}: cxx.loptions += -ldl
+  exe{lib_test}: cxx.libs += -ldl
 if ($cxx.target.system == 'mingw32')
   libs{test_lib}: cxx.loptions += -Wl,--export-all-symbols
 
