@@ -3,3 +3,5 @@
 # Don't install tests.
 #
 tests/: install = false
+
+docs/doc{*.md}: install = doc/docs/
