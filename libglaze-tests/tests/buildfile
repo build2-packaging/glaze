@@ -11,10 +11,9 @@ exe{*}:
   install = false
 }
 
-for t: tests/dir{*_test -eigen_test -exceptions_test -lib_test}
+for [dir_path] d: tests/{*_test/ -eigen_test/ -exceptions_test/ -lib_test/}
 {
-  d = $directory($t)
-  n = $name($t)
+  n = $string($leaf($d))
 
   ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
 }
