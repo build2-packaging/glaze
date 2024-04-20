@@ -1,4 +1,9 @@
-lib{glaze}: {hxx}{**}
+intf_libs =
+
+if $config.libglaze.repe_rpc
+  import intf_libs += libasio%lib{asio}
+
+lib{glaze}: {hxx}{**} $intf_libs
 
 # Export options.
 #

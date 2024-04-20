@@ -15,4 +15,5 @@ package-url: https://github.com/build2-packaging/glaze
 package-email: packaging@build2.org ; Mailing list.
 depends: * build2 >= 0.16.0
 depends: * bpkg >= 0.16.0
+depends: libasio ^1.29.0 ? ($config.libglaze.repe_rpc)
 tests: libglaze-tests == $

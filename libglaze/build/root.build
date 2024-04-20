@@ -11,6 +11,8 @@ ixx{*}: extension = ipp
 txx{*}: extension = tpp
 cxx{*}: extension = cpp
 
+config [bool] config.libglaze.repe_rpc ?= true
+
 # The test target for cross-testing (running tests under Wine, etc).
 #
 test.target = $cxx.target
