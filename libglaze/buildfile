@@ -1,7 +1,11 @@
-./: {*/ -build/ -docs/} doc{README.md PACKAGE-README.md} docs/doc{*.md} legal{LICENSE} manifest
+./: {*/ -build/ -docs/} doc{README.md PACKAGE-README.md} docs/doc{**} legal{LICENSE} manifest
 
 # Don't install tests.
 #
 tests/: install = false
 
-docs/doc{*.md}: install = doc/docs/
+docs/doc{*.md}:
+{
+  install         = doc/docs/
+  install.subdirs = true
+}

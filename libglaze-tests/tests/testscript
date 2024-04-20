@@ -1,12 +1,14 @@
 test_name = [string] $name($*)
 if ($test_name == 'cli_menu_test')
-  $* < 7 1>-
+  $* < 10 1>-
 elif ($test_name == 'csv_test')
   $* &$~/*.csv          1>-
 elif ($test_name == 'binary_test')
   $* &$~/*** &../*.beve 1>-
 elif ($test_name == 'json_test')
   $* &$~/*** &../*.json 1>-
+elif ($test_name == 'json_performance')
+  $* 1>- 2>- # change to 2>| to print performance result
 else
   $* &?$~/../*.json     1>-
 end

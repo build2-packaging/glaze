@@ -7,6 +7,7 @@ src_pfx = [dir_path] $src_root/include/
 lib{glaze}:
 {
   cxx.export.poptions = "-I$src_pfx"
+  cxx.export.libs = $intf_libs
 }
 
 if ($cxx.target.system != 'win32-msvc')

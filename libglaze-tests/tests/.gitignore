@@ -1,3 +1,5 @@
 # Testscript output directory (can be symlink).
 #
+*_conformance
+*_performance
 *_test
