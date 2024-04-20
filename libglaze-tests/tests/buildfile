@@ -15,28 +15,20 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 {
   n = $string($leaf($d))
   ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
-
-  switch $n
-  {
-    case 'eigen_test'
-    {
-      exe{eigen_test}: $eigen
-    }
-    case 'exceptions_test'
-    {
-      if ($cxx.target.system != 'win32-msvc')
-        tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
-    }
-    case 'lib_test'
-    {
-      exe{lib_test}: libs{test_lib}
-      libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
-      libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
-      def{test_lib}: libul{test_lib}
-      tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
-    }
-  }
 }
+# eigen_test
+exe{eigen_test}: $eigen
+
+# exceptions_test
+if ($cxx.target.system != 'win32-msvc')
+  tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
+
+# lib_test
+exe{lib_test}: libs{test_lib}
+libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
+libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
+def{test_lib}: libul{test_lib}
+tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
 
 if ($cxx.target.class != 'windows')
   exe{lib_test}: cxx.libs += -ldl
