@@ -10,7 +10,7 @@ To start using `libglaze` in your project, add the following `depends`
 value to your `manifest`, adjusting the version constraint as appropriate:
 
 ```
-depends: libglaze ^2.4.0
+depends: libglaze ^2.5.3
 ```
 
 Then import the library in your `buildfile`:
