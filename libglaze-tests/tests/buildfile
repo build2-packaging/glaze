@@ -20,7 +20,9 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 exe{eigen_test}: $eigen
 
 # exceptions_test
-if ($cxx.target.system != 'win32-msvc')
+if ($cxx.id == 'msvc' || $cxx.id == 'msvc-clang')
+  tests/exceptions_test/obj{*}: cxx.coptions += /EHsc
+else
   tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
 
 # lib_test
