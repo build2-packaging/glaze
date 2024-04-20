@@ -1,3 +1,11 @@
 import libs = libglaze%lib{glaze}
 
 exe{driver}: {hxx cxx}{**} $libs
+
+switch $cxx.id: path.match
+{
+  case 'gcc' | 'clang*'
+  {
+    cxx.coptions += -Wno-missing-braces
+  }
+}
