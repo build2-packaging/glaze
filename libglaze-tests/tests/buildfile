@@ -16,6 +16,26 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
   n = $string($leaf($d))
   ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
 }
+
+# asio_repe (WIP, so upstream only builds it, not running any tests)
+./: exe{asio_repe_server}: tests/asio_repe/server/{hxx cxx}{*} $libs
+{
+  test = false
+}
+./: exe{asio_repe_client}: tests/asio_repe/client/{hxx cxx}{*} $libs
+{
+  test = false
+}
+
+# Build options.
+#
+
+# asio_repe
+if ($cxx.id == 'msvc' || $cxx.id == 'msvc-clang')
+  tests/asio_repe/obj{**}: cxx.coptions += /EHsc
+else
+  tests/asio_repe/obj{**}: cxx.coptions += -fexceptions -frtti
+
 # eigen_test
 exe{eigen_test}: $eigen
 
