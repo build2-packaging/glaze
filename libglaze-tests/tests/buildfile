@@ -14,10 +14,11 @@ exe{*}:
 for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 {
   n = $string($leaf($d))
+  sd = [dir_path] $regex.replace("$src_base/tests/$n", "[\\\]", "/")
   ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
   tests/$n/obj{*}:
   {
-    cxx.poptions += "-DCURRENT_DIRECTORY=\"$regex.replace("$src_base", "[\\\]", "/")\""
+    cxx.poptions += "-DCURRENT_DIRECTORY=\"$sd\""
   }
 }
 
@@ -55,7 +56,10 @@ libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
 libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
 def{test_lib}: libul{test_lib}
 out_dir = $out_base
-tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
+tests/lib_test/obj{lib_test}:
+{
+  cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
+}
 
 if ($cxx.target.class != 'windows')
   exe{lib_test}: cxx.libs += -ldl
