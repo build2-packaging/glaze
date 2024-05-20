@@ -15,6 +15,10 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 {
   n = $string($leaf($d))
   ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
+  tests/$n/obj{*}:
+  {
+    cxx.poptions += "-DCURRENT_DIRECTORY=\"$regex.replace("$src_base", "[\\\]", "/")\""
+  }
 }
 
 # asio_repe (WIP, so upstream only builds it, not running any tests)
@@ -50,7 +54,8 @@ exe{lib_test}: libs{test_lib}
 libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
 libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
 def{test_lib}: libul{test_lib}
-tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
+out_dir = $out_base
+tests/lib_test/obj{lib_test}: cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
 
 if ($cxx.target.class != 'windows')
   exe{lib_test}: cxx.libs += -ldl
