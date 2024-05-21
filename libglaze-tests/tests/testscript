@@ -9,6 +9,8 @@ elif ($test_name == 'json_test')
   $* &$~/*** &../*.json 1>-
 elif ($test_name == 'json_performance')
   $* 1>- 2>- # change to 2>| to print performance result
+elif ($test_name == 'mock_json_test')
+  $* &$~/*** 1>|
 else
   $* &?$~/../*.json     1>-
 end
