@@ -18,7 +18,11 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 {
   n = $string($leaf($d))
   sd = [dir_path] $regex.replace("$src_base/tests/$n", "[\\\]", "/")
-  ./: exe{$n}: tests/$n/{hxx cxx}{*} tests/$n/json{**} $libs testscript
+  for t: tests/$n/cxx{*}
+  {
+    tn = $name($t)
+    ./: exe{$tn}: tests/$n/hxx{*} tests/$n/{cxx}{$tn} tests/$n/json{**} $libs testscript
+  }
   tests/$n/obj{*}:
   {
     cxx.poptions += "-DCURRENT_DIRECTORY=\"$sd\""
