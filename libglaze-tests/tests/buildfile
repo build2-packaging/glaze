@@ -3,6 +3,9 @@ import libs = libglaze%lib{glaze} \
 
 import eigen = Eigen%lib{Eigen}
 
+define json: file
+json{*}: extension = json
+
 # Unit tests.
 #
 exe{*}:
@@ -15,7 +18,7 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 {
   n = $string($leaf($d))
   sd = [dir_path] $regex.replace("$src_base/tests/$n", "[\\\]", "/")
-  ./: exe{$n}: tests/$n/{hxx cxx}{*} $libs testscript
+  ./: exe{$n}: tests/$n/{hxx cxx}{*} tests/$n/json{**} $libs testscript
   tests/$n/obj{*}:
   {
     cxx.poptions += "-DCURRENT_DIRECTORY=\"$sd\""
