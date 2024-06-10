@@ -1,5 +1,4 @@
-import libs = libglaze%lib{glaze} \
-              libboost-ext-ut%lib{boost-ext-ut}
+import libs = libglaze%lib{glaze}
 
 import eigen = Eigen%lib{Eigen}
 
@@ -42,6 +41,8 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 # Build options.
 #
 
+cxx.poptions += "-I$src_base"
+
 # asio_repe
 if ($cxx.id == 'msvc' || $cxx.id == 'msvc-clang')
   tests/asio_repe/obj{**}: cxx.coptions += /EHsc
@@ -65,7 +66,7 @@ def{test_lib}: libul{test_lib}
 out_dir = $out_base
 tests/lib_test/obj{lib_test}:
 {
-  cxx.poptions = "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
+  cxx.poptions += "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
 }
 
 if ($cxx.target.class != 'windows')

@@ -21,3 +21,4 @@
 libglaze/include/glaze     symlink=dir
 libglaze/docs              symlink=dir
 libglaze-tests/tests/tests symlink=dir
+libglaze-tests/tests/ut    symlink=dir

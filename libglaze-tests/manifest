@@ -13,4 +13,3 @@ package-email: packaging@build2.org ; Mailing list.
 depends: * build2 >= 0.16.0
 depends: * bpkg >= 0.16.0
 depends: Eigen ^3.4.0
-depends: libboost-ext-ut ^2.0.1
