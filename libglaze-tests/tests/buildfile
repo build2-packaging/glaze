@@ -1,5 +1,5 @@
 import libs = libglaze%lib{glaze}
-
+import asio = libasio%lib{asio}
 import eigen = Eigen%lib{Eigen}
 
 define json: file
@@ -20,7 +20,7 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
   for t: tests/$n/cxx{*}
   {
     tn = $name($t)
-    ./: exe{$tn}: tests/$n/hxx{*} tests/$n/{cxx}{$tn} tests/$n/json{**} $libs testscript
+    ./: exe{$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/{cxx}{$tn} tests/$n/json{**} $libs testscript
   }
   tests/$n/obj{*}:
   {
@@ -29,11 +29,11 @@ for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
 }
 
 # asio_repe (WIP, so upstream only builds it, not running any tests)
-./: exe{asio_repe_server}: tests/asio_repe/server/{hxx cxx}{*} $libs
+./: exe{asio_repe_server}: tests/asio_repe/server/{hxx cxx}{*} $libs $asio
 {
   test = false
 }
-./: exe{asio_repe_client}: tests/asio_repe/client/{hxx cxx}{*} $libs
+./: exe{asio_repe_client}: tests/asio_repe/client/{hxx cxx}{*} $libs $asio
 {
   test = false
 }
