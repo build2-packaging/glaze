@@ -1,0 +1,8 @@
+: 1
+name: libglaze
+version: 2.9.1
+type: lib,binless
+language: c++
+project: glaze
+summary: JSON and interface library for C++
+license: MIT; MIT License.
