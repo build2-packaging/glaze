@@ -8,4 +8,8 @@ switch $cxx.id: path.match
   {
     cxx.coptions += -Wno-missing-braces
   }
+  case 'msvc'
+  {
+    cxx.coptions += /Zc:preprocessor
+  }
 }

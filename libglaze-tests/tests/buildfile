@@ -93,6 +93,9 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
   }
   case 'msvc' | 'msvc-clang'
   {
+    if ($cxx.id == 'msvc')
+      cxx.coptions += /Zc:preprocessor
+
     cxx.coptions += \
       /permissive- \
       /bigobj \
