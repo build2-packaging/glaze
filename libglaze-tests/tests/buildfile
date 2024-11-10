@@ -63,6 +63,15 @@ tests/lib_test/obj{lib_test}:
 # eigen_test
 exe{eigen_test}: $eigen
 
+# tests requiring certain compiler features
+if ($cxx.id != 'msvc')
+{
+  tests/asio_repe/obj{*}: cxx.coptions += -fexceptions -frtti -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
+  tests/json_test/obj{*}: cxx.coptions += -fexceptions -frtti
+  tests/json_performance/obj{*}: cxx.coptions += -fexceptions
+  tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
+}
+
 # Common build options.
 #
 # See: https://github.com/stephenberry/glaze/blob/main/tests/CMakeLists.txt
