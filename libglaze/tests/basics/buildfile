@@ -10,6 +10,9 @@ switch $cxx.id: path.match
   }
   case 'msvc'
   {
-    cxx.coptions += /Zc:preprocessor
+    cxx.coptions += \
+      /Zc:preprocessor \
+      /wd4459 \
+      /wd4805
   }
 }

@@ -13,70 +13,59 @@ exe{*}:
   install = false
 }
 
-for [dir_path] d: tests/{*_test/ *_conformance/ *_performance/ }
+for [dir_path] d: tests/{ \
+                          *_repe/ \
+                          *_test/ \
+                          *_conformance/ \
+                          *_parsing/ \
+                          *_performance/ \
+                          utility_formats/ \
+                        }
 {
   n = $string($leaf($d))
   sd = [dir_path] $regex.replace("$src_base/tests/$n", "[\\\]", "/")
   for t: tests/$n/cxx{*}
   {
     tn = $name($t)
-    ./: exe{$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/{cxx}{$tn} tests/$n/json{**} $libs testscript
-  }
-  tests/$n/obj{*}:
-  {
-    cxx.poptions += "-DCURRENT_DIRECTORY=\"$sd\""
+    ./: exe{$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} tests/$n/json{**} $libs testscript
   }
 }
 
-# asio_repe (WIP, so upstream only builds it, not running any tests)
-./: exe{asio_repe_server}: tests/asio_repe/server/{hxx cxx}{*} $libs $asio
+# roundtrip
+for [string] f : json beve
 {
-  test = false
-}
-./: exe{asio_repe_client}: tests/asio_repe/client/{hxx cxx}{*} $libs $asio
-{
-  test = false
+  n = roundtrip
+  t = $n-$f
+  ./: exe{$t}: ut/hxx{ut} tests/$n/json{**} tests/$n/obj{$t} testscript
+  tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
+  {
+    cxx.poptions += "-I$src_base" "-DGLZ_TEST_FORMAT=glz::$string.ucase($f)"
+  }
+  tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
 }
 
 # Build options.
 #
-
 cxx.poptions += "-I$src_base"
 
-# asio_repe
-if ($cxx.id == 'msvc' || $cxx.id == 'msvc-clang')
-  tests/asio_repe/obj{**}: cxx.coptions += /EHsc
-else
-  tests/asio_repe/obj{**}: cxx.coptions += -fexceptions -frtti
+# mock_json_test
+tests/mock_json_test/obj{*}:
+{
+  cxx.poptions += "-DCURRENT_DIRECTORY=\"$sd\""
+}
+
+# lib_test
+tests/lib_test/obj{lib_test}:
+{
+  cxx.poptions += "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
+}
 
 # eigen_test
 exe{eigen_test}: $eigen
 
-# exceptions_test
-if ($cxx.id == 'msvc' || $cxx.id == 'msvc-clang')
-  tests/exceptions_test/obj{*}: cxx.coptions += /EHsc
-else
-  tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
-
-# lib_test
-exe{lib_test}: libs{test_lib}
-libs{test_lib}: libul{test_lib}: tests/lib_test/test_lib/{cxx}{*} $libs
-libs{test_lib}: def{test_lib}: include = ($cxx.target.system == 'win32-msvc')
-def{test_lib}: libul{test_lib}
-out_dir = $out_base
-tests/lib_test/obj{lib_test}:
-{
-  cxx.poptions += "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_dir", "[\\\]", "/")\""
-}
-
-if ($cxx.target.class != 'windows')
-  exe{lib_test}: cxx.libs += -ldl
-if ($cxx.target.system == 'mingw32')
-  libs{test_lib}: cxx.loptions += -Wl,--export-all-symbols
-
 # Common build options.
 #
-# See: https://github.com/stephenberry/glaze/blob/1c40c477ac0ba636faa539cb65beaaab58eef1fc/tests/CMakeLists.txt
+# See: https://github.com/stephenberry/glaze/blob/main/tests/CMakeLists.txt
 switch $cxx.id: path.match, $cxx.target.system: path.match
 {
   case 'gcc' | 'clang*'
@@ -93,14 +82,13 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
   }
   case 'msvc' | 'msvc-clang'
   {
-    if ($cxx.id == 'msvc')
-      cxx.coptions += /Zc:preprocessor
-
     cxx.coptions += \
       /permissive- \
       /bigobj \
       /GR- \
       /wd4459 \
-      /wd4805
+      /wd4805 \
+      /Zc:lambda \
+      /Zc:preprocessor
   }
 }

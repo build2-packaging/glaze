@@ -10,6 +10,7 @@ url: https://github.com/stephenberry/glaze
 email: stephenberry.developer@gmail.com
 package-url: https://github.com/build2-packaging/glaze
 package-email: packaging@build2.org ; Mailing list.
+requires: c++23
 depends: * build2 >= 0.16.0
 depends: * bpkg >= 0.16.0
 depends: Eigen ^3.4.0

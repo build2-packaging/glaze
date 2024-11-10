@@ -3,12 +3,10 @@ if ($test_name == 'cli_menu_test')
   $* < 10 1>-
 elif ($test_name == 'csv_test')
   $* &$~/*.csv          1>! 2>!
-elif ($test_name == 'binary_test')
-  $* &$~/*** &../*.beve 1>! 2>!
+elif ($test_name == 'beve_test')
+  $* &../*.beve &*.beve &*.json 1>! 2>!
 elif ($test_name == 'json_test')
-  $* &$~/*** &../*.json 1>! 2>!
+  $* &*/ &../***.json &*.jsonc 1>! 2>!
 elif ($test_name == 'json_performance')
-  $* 1>! 2>!
-else
-  $* &?$~/../*.json     1>! 2>!
+  $* &?*.json 1>! 2>!
 end
