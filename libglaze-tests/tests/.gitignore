@@ -3,6 +3,11 @@
 *_client
 *_server
 
+*_beve
 *_conformance
+*_formats
+*_json
+*_parsing
 *_performance
+*_repe
 *_test

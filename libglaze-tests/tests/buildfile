@@ -14,12 +14,12 @@ exe{*}:
 }
 
 for [dir_path] d: tests/{ \
-                          *_repe/ \
                           *_test/ \
                           *_conformance/ \
                           *_parsing/ \
                           *_performance/ \
-                          utility_formats/ \
+                          *_repe/ \
+                          *_formats/ \
                         }
 {
   n = $string($leaf($d))
@@ -37,7 +37,7 @@ tests/asio_repe/exe{asio_repe}: $asio
 for [string] f : json beve
 {
   n = roundtrip
-  t = $n-$f
+  t = $n_$f
   ./: exe{$t}: ut/hxx{ut} tests/$n/json{**} tests/$n/obj{$t} testscript
   tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
   {
