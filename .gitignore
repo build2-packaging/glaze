@@ -1,5 +1,8 @@
 .bdep/
 
+.cache/
+compile_commands.json
+
 # Local default options files.
 #
 .build2/local/
