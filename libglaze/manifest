@@ -1,6 +1,6 @@
 : 1
 name: libglaze
-version: 4.0.0-a.0.z
+version: 4.0.0
 type: lib,binless
 language: c++
 project: glaze
