@@ -1,6 +1,6 @@
 : 1
 name: libglaze-tests
-version: 4.0.0
+version: 4.0.1-a.0.z
 type: exe
 language: c++
 project: glaze
