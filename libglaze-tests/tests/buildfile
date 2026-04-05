@@ -90,6 +90,14 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       -fno-rtti \
       -fno-exceptions \
       -Wno-missing-braces
+
+    # missing includes in upstream tests:
+    cxx.coptions += \
+      -include 'cstdlib'
+
+    tests/asio_repe/obje{asio_repe}: \
+      cxx.coptions += \
+        -include 'thread'
   }
   case 'gcc', 'mingw32'
   {
