@@ -104,7 +104,7 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
     cxx.coptions += \
       -Wa,-mbig-obj
   }
-  case 'msvc' | 'msvc-clang'
+  case 'msvc' | 'msvc-clang', 'win32-msvc'
   {
     cxx.coptions += \
       /permissive- \
@@ -113,7 +113,11 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       /wd4459 \
       /wd4805 \
       /Zc:lambda \
-      /Zc:preprocessor \
-      /DNOMINMAX
+      /Zc:preprocessor
   }
+}
+
+if ($cxx.target.system == 'win32-msvc')
+{
+  cxx.coptions += -DNOMINMAX
 }
