@@ -50,16 +50,19 @@ for [string] f : json beve
 #
 cxx.poptions += "-I$src_base"
 
-# mock_json_test
-tests/mock_json_test/obj{*}:
+for c : tests/cxx{**}
 {
-  cxx.poptions += "-DCURRENT_DIRECTORY=\"$regex.replace("$src_base/mock_json_test/$n", "[\\\]", "/")\""
+  d = $directory($c)
+  $d/obj{$name($c)}: \
+    cxx.poptions += \
+      "-DGLZ_TEST_DIRECTORY=\"$path.posix_representation($src_base/$d)\""
 }
 
 # lib_test
 tests/lib_test/obj{lib_test}:
 {
-  cxx.poptions += "-DTEST_LIB_INTERFACE_LOCATION=\"$regex.replace("$out_base", "[\\\]", "/")\""
+  cxx.poptions += \
+    "-DTEST_LIB_INTERFACE_LOCATION=\"$path.posix_representation($out_base)\""
 }
 
 # eigen_test
@@ -68,7 +71,9 @@ exe{eigen_test}: $eigen
 # tests requiring certain compiler features
 if ($cxx.id != 'msvc')
 {
-  tests/asio_repe/obj{*}: cxx.coptions += -fexceptions -frtti -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
+  tests/asio_repe/obj{*}: \
+    cxx.coptions += \
+      -fexceptions -frtti -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
   tests/json_test/obj{*}: cxx.coptions += -fexceptions -frtti
   tests/json_performance/obj{*}: cxx.coptions += -fexceptions
   tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
@@ -76,7 +81,7 @@ if ($cxx.id != 'msvc')
 
 # Common build options.
 #
-# See: https://github.com/stephenberry/glaze/blob/main/tests/CMakeLists.txt
+# See: ../../upstream/tests/CMakeLists.txt
 switch $cxx.id: path.match, $cxx.target.system: path.match
 {
   case 'gcc' | 'clang*'
@@ -100,6 +105,7 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       /wd4459 \
       /wd4805 \
       /Zc:lambda \
-      /Zc:preprocessor
+      /Zc:preprocessor \
+      /DNOMINMAX
   }
 }
