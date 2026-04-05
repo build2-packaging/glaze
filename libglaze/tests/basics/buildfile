@@ -1,6 +1,6 @@
 import libs = libglaze%lib{glaze}
 
-exe{driver}: {hxx cxx}{**} $libs
+exe{driver}: {hxx cxx}{**} $libs testscript
 
 switch $cxx.id: path.match
 {
