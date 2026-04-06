@@ -1,5 +1,4 @@
 import libs = libglaze%lib{glaze}
-import asio = libasio%lib{asio}
 import eigen = Eigen%lib{Eigen}
 
 define json: file
@@ -79,9 +78,6 @@ exe{eigen_test}: $eigen
 # tests requiring certain compiler features
 if ($cxx.id != 'msvc')
 {
-  tests/asio_repe/obj{*}: \
-    cxx.coptions += -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
-
   for [dir_path] d : tests/{ \
                        buffer_pool_test \
                        exceptions_test \
@@ -132,5 +128,9 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
 
 if ($cxx.target.system == 'win32-msvc')
 {
-  cxx.coptions += -DNOMINMAX
+  cxx.coptions += \
+    -DNOMINMAX \
+    -D_CRT_SECURE_NO_WARNINGS \
+    -D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS \
+    -DWIN32_LEAN_AND_MEAN
 }
