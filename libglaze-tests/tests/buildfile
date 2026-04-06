@@ -31,8 +31,10 @@ for [dir_path] d: tests/{*_test*/ \
   for t: tests/$n/cxx{*}
   {
     tn = $name($t)
-    ./: exe{$n-$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
-                     tests/$n/json{**} $libs testscript
+    exe{$n-$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
+                 tests/$n/json{**} $libs testscript
+    # Don't build (and test/run) benchmarks by default.
+    ./: exe{$n-$tn}: include = (!$contains($n, 'performance'))
   }
 }
 
