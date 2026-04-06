@@ -13,8 +13,13 @@ exe{*}:
   install = false
 }
 
-for [dir_path] d: tests/{ \
-                          *_test/ \
+# skip: erlang
+for [dir_path] d: tests/{*_test/ \
+                          -eetf_test/ \
+                          -threading_test/ \
+                          -key_transformers_test/ \
+                        } \
+                  tests/{ \
                           *_conformance/ \
                           *_parsing/ \
                           *_performance/ \
