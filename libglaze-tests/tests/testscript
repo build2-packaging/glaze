@@ -1,12 +1,10 @@
 test_name = [string] $name($*)
-if ($test_name == 'cli_menu_test')
+if ($test_name == 'cli_menu_test-cli_menu_test')
   $* < 10 1>-
-elif ($test_name == 'csv_test')
-  $* &$~/*.csv          1>! 2>!
-elif ($test_name == 'beve_test')
-  $* &../*.beve &*.beve &*.json 1>! 2>!
-elif ($test_name == 'json_test')
-  $* &*/ &../***.json &*.jsonc 1>! 2>!
-elif ($test_name == 'json_performance')
-  $* &?*.json 1>! 2>!
+else
+  $* &?*/ \
+     &?*.json &?../***.json &?*.jsonc \
+     &?../*.beve &?*.beve \
+     &?$~/*.csv \
+     1>! 2>!
 end
