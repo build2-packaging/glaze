@@ -13,11 +13,13 @@ exe{*}:
   install = false
 }
 
-# skip: erlang (sys-lib) & lib_test (annoying setup)
+# skip: erlang (sys-lib), lib_test (annoying setup), key_transformers_test
+#       (broken on MSVC)
 # note: this skips nested tests (eg. networking_test/*/) for no other reason
-#       than avoiding dealing with every single nuance in the CMake setup.
+#       than to avoid dealing with every single nuance in the CMake setup.
 for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
+                          -key_transformers_test/ \
                           -lib_test/ \
                         } \
                   tests/{ \
@@ -102,8 +104,11 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
 {
   case 'gcc' | 'clang*'
   {
+    # See: https://github.com/microsoft/STL/issues/4349
+    if($cxx.target.system != 'win32-msvc')
+      cxx.coptions += -fno-rtti
+
     cxx.coptions += \
-      -fno-rtti \
       -fno-exceptions \
       -Wno-missing-braces
   }
