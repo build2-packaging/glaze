@@ -13,11 +13,11 @@ exe{*}:
   install = false
 }
 
-# skip: erlang
-for [dir_path] d: tests/{*_test/ \
+# skip: erlang (sys-lib) & lib_test (just annoying setup)
+for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
-                          -threading_test/ \
                           -key_transformers_test/ \
+                          -lib_test/ \
                         } \
                   tests/{ \
                           *_conformance/ \
@@ -31,15 +31,16 @@ for [dir_path] d: tests/{*_test/ \
   for t: tests/$n/cxx{*}
   {
     tn = $name($t)
-    ./: exe{$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} tests/$n/json{**} $libs testscript
+    ./: exe{$n-$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
+                     tests/$n/json{**} $libs testscript
   }
 }
 
 # asio_repe
-tests/asio_repe/exe{asio_repe}: $asio
+exe{tests-asio_repe-asio_repe}: $asio
 
 # roundtrip
-for [string] f : json beve
+for [string] f : json beve # toml
 {
   n = roundtrip
   t = $(n)-$(f)_test
@@ -58,30 +59,35 @@ cxx.poptions += "-I$src_base"
 for c : tests/cxx{**}
 {
   d = $directory($c)
-  $d/obj{$name($c)}: \
+  n = $name($c)
+  td = [path] $src_base/$d
+  $d/obj{$n}: \
     cxx.poptions += \
-      "-DGLZ_TEST_DIRECTORY=\"$path.posix_representation($src_base/$d)\""
-}
-
-# lib_test
-tests/lib_test/obj{lib_test}:
-{
-  cxx.poptions += \
-    "-DTEST_LIB_INTERFACE_LOCATION=\"$path.posix_representation($out_base)\""
+      "-DGLZ_TEST_DIRECTORY=\"$path.posix_representation($td)\""
 }
 
 # eigen_test
-exe{eigen_test}: $eigen
+exe{eigen_test-eigen_test}: $eigen
 
 # tests requiring certain compiler features
 if ($cxx.id != 'msvc')
 {
   tests/asio_repe/obj{*}: \
-    cxx.coptions += \
-      -fexceptions -frtti -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
-  tests/json_test/obj{*}: cxx.coptions += -fexceptions -frtti
-  tests/json_performance/obj{*}: cxx.coptions += -fexceptions
-  tests/exceptions_test/obj{*}: cxx.coptions += -fexceptions
+    cxx.coptions += -DASIO_HAS_CO_AWAIT -DASIO_HAS_STD_COROUTIN
+
+  for [dir_path] d : tests/{ \
+                       buffer_pool_test \
+                       exceptions_test \
+                       json_test \
+                       json_performance \
+                       inplace_vector \
+                       int_parsing \
+                       networking_tests \
+                       threading_test \
+                     }
+  {
+    tests/$name($d)/obj{**}: cxx.coptions += -fexceptions
+  }
 }
 
 # Common build options.
@@ -95,14 +101,6 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       -fno-rtti \
       -fno-exceptions \
       -Wno-missing-braces
-
-    # missing includes in upstream tests:
-    cxx.coptions += \
-      -include 'cstdlib'
-
-    tests/asio_repe/obje{asio_repe}: \
-      cxx.coptions += \
-        -include 'thread'
   }
   case 'gcc', 'mingw32'
   {
