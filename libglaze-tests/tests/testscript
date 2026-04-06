@@ -1,5 +1,5 @@
 test_name = [string] $name($*)
-if ($test_name == 'cli_menu_test-cli_menu_test')
+if ($contains($test_name, 'cli_menu_test'))
   $* < 10 1>-
 else
   $* &?*/ \

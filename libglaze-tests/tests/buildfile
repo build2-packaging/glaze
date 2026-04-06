@@ -13,10 +13,11 @@ exe{*}:
   install = false
 }
 
-# skip: erlang (sys-lib) & lib_test (just annoying setup)
+# skip: erlang (sys-lib) & lib_test (annoying setup)
+# note: this skips nested tests (eg. networking_test/*/) for no other reason
+#       than avoiding dealing with every single nuance in the CMake setup.
 for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
-                          -key_transformers_test/ \
                           -lib_test/ \
                         } \
                   tests/{ \
@@ -31,15 +32,17 @@ for [dir_path] d: tests/{*_test*/ \
   for t: tests/$n/cxx{*}
   {
     tn = $name($t)
-    exe{$n-$tn}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
+    # Name targets '<subdir>-<name>' unless identical
+    if ("$n" != "$tn")
+      e = $n-$tn
+    else
+      e = $n
+    exe{$e}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
                  tests/$n/json{**} $libs testscript
     # Don't build (and test/run) benchmarks by default.
-    ./: exe{$n-$tn}: include = (!$contains($n, 'performance'))
+    ./: exe{$e}: include = (!$contains($n, 'performance'))
   }
 }
-
-# asio_repe
-exe{tests-asio_repe-asio_repe}: $asio
 
 # roundtrip
 for [string] f : json beve # toml
@@ -69,7 +72,7 @@ for c : tests/cxx{**}
 }
 
 # eigen_test
-exe{eigen_test-eigen_test}: $eigen
+exe{eigen_test}: $eigen
 
 # tests requiring certain compiler features
 if ($cxx.id != 'msvc')
