@@ -94,14 +94,13 @@ for [string] f : json beve # toml
 #
 cxx.poptions += "-I$src_base"
 
-for c : tests/cxx{**}
+for [dir_path] d : {tests/*_test/}
 {
-  d = $directory($c)
-  n = $name($c)
-  td = [path] $src_base/$d
-  $d/obj{$n}: \
+  td = [path] $path.posix_representation($src_base/$d)
+  n = $name($d)
+  tests/$n/obj{**}: \
     cxx.poptions += \
-      "-DGLZ_TEST_DIRECTORY=\"$path.posix_representation($td)\""
+      "-DGLZ_TEST_DIRECTORY=\"$path.posix_string($td)\""
 }
 
 # eigen_test
