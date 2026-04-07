@@ -21,4 +21,4 @@ tests: libglaze-tests == $
 builds: default experimental ; Only modern compilers are supported.
 builds: &gcc-13+             ; GCC >= 13
 builds: &clang-18+           ; Clang >= 18
-builds: -( +macos &gcc)      ; Homebrew GCC is not supported.
+builds: -( +macos &gcc )     ; Homebrew GCC is not supported.
