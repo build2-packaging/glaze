@@ -119,6 +119,7 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       /permissive- \
       /bigobj \
       /GR- \
+      /wd4244 \
       /wd4459 \
       /wd4805 \
       /Zc:lambda \
