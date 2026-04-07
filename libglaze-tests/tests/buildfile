@@ -4,6 +4,15 @@ import eigen = Eigen%lib{Eigen}
 define json: file
 json{*}: extension = json
 
+define csv: file
+csv{*}: extension = csv
+
+define toml: file
+toml{*}: extension = toml
+
+define yaml: file
+yaml{*}: extension = yml
+
 # Unit tests.
 #
 exe{*}:
@@ -39,7 +48,7 @@ for [dir_path] d: tests/{*_test*/ \
     else
       e = $n
     exe{$e}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
-                 tests/$n/json{**} $libs testscript
+                 tests/$n/{json csv toml yaml}{**} $libs testscript
 
     # Don't build (and test/run) benchmarks by default.
     enabled = (!$contains($n, 'performance'))
