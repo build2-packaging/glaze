@@ -18,3 +18,4 @@ depends: * build2 >= 0.17.0
 depends: * bpkg >= 0.17.0
 depends: libasio ^1.29.0 ? ($config.libglaze.repe_rpc)
 tests: libglaze-tests == $
+builds: default experimental ; Only modern compilers are supported.
