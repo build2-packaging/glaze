@@ -1,6 +1,8 @@
+using cxx.guess
+
 cxx.internal.scope = current
 
-cxx.std = latest
+cxx.std = ($cxx.id == 'msvc' ? experimental : latest)
 
 using cxx
 
