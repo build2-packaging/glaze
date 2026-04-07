@@ -19,3 +19,6 @@ depends: * bpkg >= 0.17.0
 depends: libasio ^1.29.0 ? ($config.libglaze.repe_rpc)
 tests: libglaze-tests == $
 builds: default experimental ; Only modern compilers are supported.
+builds: &gcc-13+             ; GCC >= 13
+builds: &clang-18+           ; Clang >= 18
+builds: -( +macos &gcc)      ; Homebrew GCC is not supported.
