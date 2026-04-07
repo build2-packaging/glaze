@@ -40,8 +40,26 @@ for [dir_path] d: tests/{*_test*/ \
       e = $n
     exe{$e}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
                  tests/$n/json{**} $libs testscript
+
     # Don't build (and test/run) benchmarks by default.
-    ./: exe{$e}: include = (!$contains($n, 'performance'))
+    enabled = (!$contains($n, 'performance'))
+
+    # Note:
+    # MSVC remained severely broken over multiple compiler versions and most
+    # issues aren't fully resolved until CL 19.50 (VS 18.2.1) and glaze v7.Y.Z.
+    switch $n
+    {
+      case 'json_test'
+      {
+        enabled = ($cxx.target.system != 'win32-msvc')
+      }
+      case 'istream_buffer_test'
+      {
+        # See: https://github.com/stephenberry/glaze/pull/2304
+        enabled = ($build.host.class != 'windows')
+      }
+    }
+    ./: exe{$e}: include = $enabled
   }
 }
 
