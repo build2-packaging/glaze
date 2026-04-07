@@ -79,7 +79,7 @@ for [dir_path] d: tests/{*_test*/ \
       case 'threading_test'
       {
         # Sporadic access violation.
-        enabled = ($cxx.id != 'msvc')
+        enabled = ($cxx.target.system != 'win32-msvc')
       }
     }
     ./: exe{$e}: include = $enabled
