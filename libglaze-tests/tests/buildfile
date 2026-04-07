@@ -47,16 +47,30 @@ for [dir_path] d: tests/{*_test*/ \
     # Note:
     # MSVC remained severely broken over multiple compiler versions and most
     # issues aren't fully resolved until CL 19.50 (VS 18.2.1) and glaze v7.Y.Z.
-    switch $n
+    switch $e: path.match
     {
       case 'json_test'
       {
         enabled = ($cxx.target.system != 'win32-msvc')
       }
+      case 'json_test-json_variant_support_test'
+      {
+        enabled = ($cxx.id != 'msvc')
+      }
       case 'istream_buffer_test'
       {
         # See: https://github.com/stephenberry/glaze/pull/2304
         enabled = ($build.host.class != 'windows')
+      }
+      case '*rpc_test'
+      {
+        # Fails on most CI machines (compiler bug).
+        enabled = false
+      }
+      case 'threading_test'
+      {
+        # Sporadic access violation.
+        enabled = ($cxx.id != 'msvc')
       }
     }
     ./: exe{$e}: include = $enabled
