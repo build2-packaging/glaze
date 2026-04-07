@@ -20,4 +20,4 @@ depends: libasio ^1.29.0 ? ($config.libglaze.repe_rpc)
 tests: libglaze-tests == $
 builds: default experimental               ; Only modern compilers are supported.
 builds: &( +gcc-13+ +clang-18+ +msvc-17+ ) ; Requires newer features & bug-fixes.
-builds: -( +macos &gcc )                   ; Homebrew GCC is not supported.
+builds: +( +macos &clang )                 ; Homebrew GCC is not supported.
