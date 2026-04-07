@@ -58,28 +58,26 @@ for [dir_path] d: tests/{*_test*/ \
     # issues aren't fully resolved until CL 19.50 (VS 18.2.1) and glaze v7.Y.Z.
     switch $e: path.match
     {
-      case 'json_test'
+      case 'simple_float_test' | 'int_parsing'
       {
-        enabled = ($cxx.target.system != 'win32-msvc')
+        # Crazy slow.
+        enabled = false
       }
-      case 'json_test-json_variant_support_test'
+      case 'p2996_test'
       {
-        enabled = ($cxx.id != 'msvc')
-      }
-      case 'istream_buffer_test'
-      {
-        # See: https://github.com/stephenberry/glaze/pull/2304
-        enabled = ($build.host.class != 'windows')
+        # Requires C++26 reflection.
+        enabled = false
       }
       case '*rpc_test'
       {
         # Fails on most CI machines (compiler bug).
         enabled = false
       }
-      case 'threading_test'
+      case 'yaml_conformance-yaml_conformance_data'
       {
-        # Sporadic access violation.
-        enabled = ($cxx.target.system != 'win32-msvc')
+        # Requires external test-suite,
+        # (see tests/yaml_conformance/CMakeLists.txt)
+        enabled = false
       }
     }
     ./: exe{$e}: include = $enabled
@@ -87,7 +85,7 @@ for [dir_path] d: tests/{*_test*/ \
 }
 
 # roundtrip
-for [string] f : json beve # toml
+for [string] f : json beve
 {
   n = roundtrip
   t = $(n)-$(f)_test
@@ -98,6 +96,9 @@ for [string] f : json beve # toml
   }
   tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
 }
+
+# eigen_test
+exe{eigen_test}: $eigen
 
 # Build options.
 #
@@ -111,9 +112,6 @@ for [dir_path] d : {tests/*_test/}
     cxx.poptions += \
       "-DGLZ_TEST_DIRECTORY=\"$path.posix_string($td)\""
 }
-
-# eigen_test
-exe{eigen_test}: $eigen
 
 # tests requiring certain compiler features
 if ($cxx.id != 'msvc')
