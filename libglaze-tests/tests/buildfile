@@ -68,11 +68,6 @@ for [dir_path] d: tests/{*_test*/ \
         # Requires C++26 reflection.
         enabled = false
       }
-      case '*rpc_test'
-      {
-        # Fails on most CI machines (compiler bug).
-        enabled = false
-      }
       case 'yaml_conformance-yaml_conformance_data'
       {
         # Requires external test-suite,
