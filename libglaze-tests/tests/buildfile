@@ -1,5 +1,6 @@
 import libs = libglaze%lib{glaze}
 import eigen = Eigen%lib{Eigen}
+import sqlite = libsqlite3%lib{sqlite3}
 
 define json: file
 json{*}: extension = json
@@ -94,6 +95,9 @@ for [string] f : json beve
 
 # eigen_test
 exe{eigen_test}: $eigen
+
+# sqlite_test
+exe{jsonb_sqlite_test}: $sqlite
 
 # Build options.
 #
