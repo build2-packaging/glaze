@@ -21,7 +21,7 @@ exe{*}:
 
 # skip: erlang (sys-lib), lib_test (annoying setup).
 #
-# note: this skips nested tests (eg. networking_test/*/) for no other reason
+# note: this skips nested tests (eg. networking_tests/*/) for no other reason
 #       than to avoid dealing with every single nuance in the CMake setup.
 for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
@@ -33,6 +33,7 @@ for [dir_path] d: tests/{*_test*/ \
                           *_performance/ \
                           *_repe/ \
                           *_formats/ \
+                          reflection/ \
                         }
 {
   n = $string($leaf($d))
@@ -47,19 +48,10 @@ for [dir_path] d: tests/{*_test*/ \
     exe{$e}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
                  tests/$n/{json csv toml yaml}{**} $libs testscript
 
-    # Don't build (and test/run) benchmarks by default.
-    enabled = (!$contains($n, 'performance'))
+    enabled = true
 
-    # Note:
-    # MSVC remained severely broken over multiple compiler versions and most
-    # issues aren't fully resolved until CL 19.50 (VS 18.2.1) and glaze v7.Y.Z.
     switch $e: path.match
     {
-      case 'simple_float_test' | 'int_parsing'
-      {
-        # Crazy slow.
-        enabled = false
-      }
       case 'p2996_test'
       {
         # Requires C++26 reflection.
@@ -94,6 +86,12 @@ exe{eigen_test}: $eigen
 
 # sqlite_test
 exe{jsonb_sqlite_test}: $sqlite
+
+# simple_float_test, int_parsing (slow)
+exe{simple_float_test int_parsing *_perf_* *_performance}: test = false
+
+# disable performance tests
+exe{*_perf_* *_performance}: test = false
 
 # Build options.
 #
