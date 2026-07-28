@@ -22,13 +22,12 @@ exe{*}:
   install = false
 }
 
-# skip: erlang (sys-lib), lib_test (annoying setup), key_transformers_test
-#       (broken on MSVC)
+# skip: erlang (sys-lib), lib_test (annoying setup).
+#
 # note: this skips nested tests (eg. networking_test/*/) for no other reason
 #       than to avoid dealing with every single nuance in the CMake setup.
 for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
-                          -key_transformers_test/ \
                           -lib_test/ \
                         } \
                   tests/{ \
