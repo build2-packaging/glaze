@@ -11,7 +11,10 @@ ixx{*}: extension = ipp
 txx{*}: extension = tpp
 cxx{*}: extension = cpp
 
-config [bool] config.libglaze.repe_rpc ?= true
+config [bool] config.libglaze.repe_rpc                  ?= true
+config [bool] config.libglaze.disable_always_inline     ?= false
+config [bool] config.libglaze.default_optimization_size ?= false
+config [bool] config.libglaze.disable_simd              ?= false
 
 # The test target for cross-testing (running tests under Wine, etc).
 #

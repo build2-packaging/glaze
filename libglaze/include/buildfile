@@ -11,7 +11,10 @@ src_pfx = [dir_path] $src_root/include/
 
 lib{glaze}:
 {
-  cxx.export.poptions = "-I$src_pfx"
+  cxx.export.poptions = "-I$src_pfx" \
+    ($config.libglaze.disable_always_inline     ? '-DGLZ_DISABLE_ALWAYS_INLINE':)     \
+    ($config.libglaze.default_optimization_size ? '-DGLZ_DEFAULT_OPTIMIZATION_SIZE':) \
+    ($config.libglaze.disable_simd              ? '-DGLZ_DISABLE_SIMD':)
   cxx.export.libs = $intf_libs
 }
 
