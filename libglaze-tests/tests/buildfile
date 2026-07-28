@@ -2,9 +2,6 @@ import libs = libglaze%lib{glaze}
 import eigen = Eigen%lib{Eigen}
 import sqlite = libsqlite3%lib{sqlite3}
 
-define json: file
-json{*}: extension = json
-
 define csv: file
 csv{*}: extension = csv
 
