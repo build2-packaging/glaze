@@ -64,6 +64,12 @@ for [dir_path] d: tests/{*_test*/ \
         # (see tests/yaml_conformance/CMakeLists.txt)
         enabled = false
       }
+      case 'jsonrpc_test'
+      {
+        # Apple Clang 21 libc++ fails std::expected equality with recursive
+        # constraint satisfaction (P3379R0, same as GCC bug 119714).
+        enabled = ($cxx.id != 'clang-apple' || $cxx.version.major != 21)
+      }
     }
     ./: exe{$e}: include = $enabled
   }
