@@ -6,6 +6,7 @@ language: c++
 project: glaze
 summary: JSON and interface library for C++ (tests)
 license: MIT ; MIT License.
+package-description-file: PACKAGE-README.md
 url: https://github.com/stephenberry/glaze
 doc-url: https://stephenberry.github.io/glaze
 email: stephenberry.developer@gmail.com
