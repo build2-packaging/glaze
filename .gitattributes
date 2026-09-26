@@ -17,8 +17,3 @@
 # Use `binary` to make sure certain files are never auto-detected as text.
 #
 #*.png binary
-
-libglaze/include/glaze     symlink=dir
-libglaze/docs              symlink=dir
-libglaze-tests/tests/tests symlink=dir
-libglaze-tests/tests/ut    symlink=dir
