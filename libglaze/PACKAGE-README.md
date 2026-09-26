@@ -20,6 +20,17 @@ import libs = libglaze%lib{glaze}
 ```
 
 
+## Importable targets
+
+This package provides the following importable targets:
+
+```
+lib{glaze}
+```
+
+Header-only JSON and interface library.
+
+
 ## Configuration variables
 
 This package provides the following configuration variables:
