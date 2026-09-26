@@ -3,7 +3,7 @@ intf_libs =
 if $config.libglaze.repe_rpc
   import intf_libs += libasio%lib{asio}
 
-lib{glaze}: {hxx}{**} $intf_libs
+lib{glaze}: {hxx h}{**} $intf_libs
 
 # Export options.
 #
@@ -26,7 +26,7 @@ if ($cxx.target.system != 'win32-msvc')
 
 # Install recreating subdirectories.
 #
-{hxx}{*}:
+{hxx h}{*}:
 {
   install         = include/
   install.subdirs = true
