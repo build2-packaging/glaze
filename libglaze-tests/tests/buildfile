@@ -19,7 +19,8 @@ exe{*}:
   install = false
 }
 
-# skip: erlang (sys-lib), lib_test (annoying setup).
+# skip: erlang (sys-lib), lib_test (annoying setup), streaming_view_rejection
+#       (compile-failure tests).
 #
 # note: this skips nested tests (eg. networking_tests/*/) for no other reason
 #       than to avoid dealing with every single nuance in the CMake setup.
@@ -45,7 +46,7 @@ for [dir_path] d: tests/{*_test*/ \
       e = $n-$tn
     else
       e = $n
-    exe{$e}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{$tn} \
+    exe{$e}: ut/hxx{ut} tests/hxx{*} tests/$n/hxx{*} tests/$n/cxx{$tn} \
                  tests/$n/{json csv toml yaml}{**} $libs testscript
 
     enabled = true
@@ -95,7 +96,7 @@ exe{*_perf_* *_performance}: test = false
 
 # Build options.
 #
-cxx.poptions += "-I$src_base"
+cxx.poptions += "-I$src_base" "-I$src_base/tests"
 
 for [dir_path] d : {tests/*_test/}
 {
