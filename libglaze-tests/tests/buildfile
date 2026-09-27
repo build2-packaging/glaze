@@ -28,12 +28,14 @@ for [dir_path] d: tests/{*_test*/ \
                           -eetf_test/ \
                           -lib_test/ \
                         } \
+                  tests/{*_formats/ \
+                          -custom_formats/ \
+                        } \
                   tests/{ \
                           *_conformance/ \
                           *_parsing/ \
                           *_performance/ \
                           *_repe/ \
-                          *_formats/ \
                           reflection/ \
                         }
 {
@@ -87,6 +89,10 @@ for [string] f : json beve
   }
   tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
 }
+
+# custom_formats (single executable, eetf_custom requires erlang)
+./: exe{custom_formats}: ut/hxx{ut} tests/hxx{*} tests/custom_formats/hxx{*} \
+                         tests/custom_formats/cxx{* -eetf_custom} $libs testscript
 
 # eigen_test
 exe{eigen_test}: $eigen
