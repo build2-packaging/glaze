@@ -21,3 +21,5 @@ depends: libasio ^1.29.0 ? ($config.libglaze.repe_rpc)
 tests: libglaze-tests == $
 builds: default experimental               ; Only modern compilers are supported.
 builds: &( +gcc-13+ +clang-18+ +msvc-17+ ) ; Requires newer features & bug-fixes.
+build-exclude: linux_*-clang_18    ; Clang 18 lacks std::expected with libstdc++.
+build-exclude: linux_*-clang_18-** ; Clang 18 lacks std::expected with libstdc++.
