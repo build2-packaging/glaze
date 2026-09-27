@@ -23,3 +23,5 @@ builds: default experimental               ; Only modern compilers are supported
 builds: &( +gcc-13+ +clang-18+ +msvc-18+ ) ; Requires newer features & bug-fixes.
 build-exclude: linux_*-clang_18    ; Clang 18 lacks std::expected with libstdc++.
 build-exclude: linux_*-clang_18-** ; Clang 18 lacks std::expected with libstdc++.
+build-exclude: linux_debian_12-gcc_14    ; GCC 14.1 ICE and TOML test crashes.
+build-exclude: linux_debian_12-gcc_14-** ; GCC 14.1 ICE and TOML test crashes.
