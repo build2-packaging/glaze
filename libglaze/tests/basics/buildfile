@@ -16,3 +16,9 @@ switch $cxx.id: path.match
       /wd4805
   }
 }
+
+# glaze/file/file_ops.hpp only silences the CRT fopen() deprecation for MSVC
+# proper, not for Clang targeting MSVC.
+#
+if ($cxx.target.system == 'win32-msvc')
+  cxx.poptions += -D_CRT_SECURE_NO_WARNINGS
