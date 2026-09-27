@@ -1,4 +1,4 @@
-# libglaze-tests - In memory, JSON and interface library for C++ (tests)
+# libglaze-tests - Multi-format serialization, reflection, and RPC C++ library (tests)
 
 This is a `build2` package containing the test suite for the
 [`glaze`](https://github.com/stephenberry/glaze) library.

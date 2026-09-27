@@ -1,7 +1,7 @@
-# glaze - JSON and interface library for C++
+# glaze - Multi-format serialization, reflection, and RPC C++ library
 
 This is a `build2` package repository for [`glaze`](https://github.com/stephenberry/glaze),
-an in memory, JSON and interface library for C++.
+a multi-format serialization, reflection, and RPC library for C++.
 
 This file contains setup instructions and other details that are more
 appropriate for development rather than consumption. If you want to use

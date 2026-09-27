@@ -4,8 +4,9 @@ version: 8.4.0-a.0.z
 type: lib,binless
 language: c++
 project: glaze
-summary: JSON and interface library for C++
-topics: json, json rpc 2.0, csv, beve, serialization
+summary: Multi-format serialization, reflection, and RPC C++ library
+topics: json, yaml, toml, cbor, messagepack
+keywords: beve bson csv jsonb msgpack
 license: MIT ; MIT License.
 description-file: README.md
 package-description-file: PACKAGE-README.md

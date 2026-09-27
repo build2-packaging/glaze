@@ -4,7 +4,7 @@ version: 8.4.0-a.0.z
 type: exe
 language: c++
 project: glaze
-summary: JSON and interface library for C++ (tests)
+summary: Multi-format serialization, reflection, and RPC C++ library (tests)
 license: MIT ; MIT License.
 package-description-file: PACKAGE-README.md
 url: https://github.com/stephenberry/glaze

@@ -1,7 +1,10 @@
-# libglaze - In memory, JSON and interface library for C++
+# libglaze - Multi-format serialization, reflection, and RPC C++ library
 
 This is a `build2` package for the [`glaze`](https://github.com/stephenberry/glaze)
-C++ library. It provides an in memory, JSON and interface library for C++.
+C++ library. It reads and writes C++ objects directly from memory, using
+compile-time reflection, in JSON, BEVE, CBOR, JSONB, BSON, CSV, MessagePack,
+TOML, and YAML. It also provides Stencil/Mustache string interpolation and
+JSON-RPC 2.0 and REPE based RPC.
 
 
 ## Usage
@@ -28,7 +31,7 @@ This package provides the following importable targets:
 lib{glaze}
 ```
 
-Header-only JSON and interface library.
+Header-only serialization, reflection, and RPC library.
 
 
 ## Configuration variables
