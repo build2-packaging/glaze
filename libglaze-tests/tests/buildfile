@@ -152,11 +152,6 @@ switch $cxx.id: path.match, $cxx.target.system: path.match
       -fno-exceptions \
       -Wno-missing-braces
   }
-  case 'gcc', 'mingw32'
-  {
-    cxx.coptions += \
-      -Wa,-mbig-obj
-  }
   case 'msvc' | 'msvc-clang', 'win32-msvc'
   {
     cxx.coptions += \
@@ -179,3 +174,6 @@ if ($cxx.target.system == 'win32-msvc')
     -D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS \
     -DWIN32_LEAN_AND_MEAN
 }
+
+if ($cxx.id == 'gcc' && $cxx.target.system == 'mingw32')
+  cxx.coptions += -Wa,-mbig-obj
