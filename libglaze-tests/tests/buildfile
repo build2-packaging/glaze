@@ -190,6 +190,19 @@ if ($cxx.target.system == 'win32-msvc')
 if ($cxx.id == 'gcc' && $cxx.target.system == 'mingw32')
   cxx.coptions += -Wa,-mbig-obj
 
+# GCC's flow-based warnings misfire (with optimization) on the writers that the
+# tests instantiate with small fixed-size buffers.
+#
+if ($cxx.id == 'gcc')
+{
+  cxx.coptions += \
+    -Wno-array-bounds \
+    -Wno-restrict \
+    -Wno-stringop-overflow \
+    -Wno-stringop-overread \
+    -Wno-maybe-uninitialized
+}
+
 # MinGW libstdc++ lacks std::from_chars/to_chars for std::float128_t, which
 # json_test only exercises when __STDCPP_FLOAT128_T__ is defined.
 #
