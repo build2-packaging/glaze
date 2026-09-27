@@ -72,6 +72,12 @@ for [dir_path] d: tests/{*_test*/ \
         # satisfaction (P3379R0, same as GCC bug 119714).
         enabled = ($cxx.stdlib != 'libc++' || $cxx.version.major < 21)
       }
+      case 'cbor_test' | 'msgpack_test'
+      {
+        # Clang with libstdc++ rejects the std::variant of incomplete types
+        # used by the ambiguous nest tests.
+        enabled = ($cxx.id.type != 'clang' || $cxx.stdlib != 'libstdc++')
+      }
     }
     ./: exe{$e}: include = $enabled
   }
