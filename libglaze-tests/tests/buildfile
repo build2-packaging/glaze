@@ -40,7 +40,8 @@ for [dir_path] d: tests/{*_test*/ \
                         }
 {
   n = $string($leaf($d))
-  for t: tests/$n/cxx{*}
+  # beve_test.cpp is replaced by a patched copy (see below).
+  for t: tests/$n/cxx{* -beve_test}
   {
     tn = $name($t)
     # Name targets '<subdir>-<name>' unless identical
@@ -95,6 +96,11 @@ for [string] f : json beve
   }
   tests/$n/obj{$t}: ut/hxx{ut} tests/$n/hxx{*} tests/$n/cxx{*} $libs
 }
+
+# beve_test (patched copy of tests/beve_test/beve_test.cpp,
+# see beve_test.cpp.patch)
+./: exe{beve_test}: ut/hxx{ut} tests/hxx{*} tests/beve_test/hxx{*} cxx{beve_test} \
+                    tests/beve_test/{json csv toml yaml}{**} $libs testscript
 
 # custom_formats (single executable, eetf_custom requires erlang)
 ./: exe{custom_formats}: ut/hxx{ut} tests/hxx{*} tests/custom_formats/hxx{*} \

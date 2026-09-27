@@ -1,2 +1,8 @@
 tests/tests symlink=dir
 tests/ut    symlink=dir
+
+# Keep the patched upstream copy LF, as upstream does (its tests compare
+# against multi-line raw string literals).
+#
+tests/beve_test.cpp       text eol=lf
+tests/beve_test.cpp.patch text eol=lf
