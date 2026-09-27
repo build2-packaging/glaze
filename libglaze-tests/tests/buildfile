@@ -70,6 +70,12 @@ for [dir_path] d: tests/{*_test*/ \
         # satisfaction (P3379R0, same as GCC bug 119714).
         enabled = ($cxx.stdlib != 'libc++' || $cxx.version.major < 21)
       }
+      case 'tuple_test'
+      {
+        # GCC 14.1 internal compiler error (cp_gimplify_init_expr).
+        enabled = ($cxx.id != 'gcc' || $cxx.version.major != 14 || \
+                   $cxx.version.minor >= 2)
+      }
     }
     ./: exe{$e}: include = $enabled
   }
