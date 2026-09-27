@@ -1,0 +1,8 @@
+: 1
+name: libglaze-tests
+version: 8.4.0
+type: exe
+language: c++
+project: glaze
+summary: Multi-format serialization, reflection, and RPC C++ library (tests)
+license: MIT; MIT License.
