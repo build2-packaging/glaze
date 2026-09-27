@@ -20,7 +20,7 @@ exe{*}:
 }
 
 # skip: erlang (sys-lib), lib_test (annoying setup), streaming_view_rejection
-#       (compile-failure tests).
+#       and wrapper_rejection (compile-failure tests).
 #
 # note: this skips nested tests (eg. networking_tests/*/) for no other reason
 #       than to avoid dealing with every single nuance in the CMake setup.
