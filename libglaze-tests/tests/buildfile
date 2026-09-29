@@ -37,6 +37,7 @@ for [dir_path] d: tests/{*_test*/ \
                           *_performance/ \
                           *_repe/ \
                           reflection/ \
+                          inplace_vector/ \
                         }
 {
   n = $string($leaf($d))
@@ -148,6 +149,37 @@ if ($cxx.id != 'msvc')
     tests/$name($d)/obj{**}: cxx.coptions += -fexceptions
   }
 }
+
+# The following translation units are exceptionally heavy to compile (deep
+# constexpr/template instantiation) and are serialized so they never run
+# concurrently with other compile/link jobs, avoiding the OOM observed on
+# cppget.org building 9.0.0 (enum_test.cpp was the TU being compiled when the
+# kernel OOM-killer fired, with reflection.cpp - the heaviest file in the same
+# directory - still compiling alongside it per the preceding log lines). The
+# rest are every other target across all of tests/ that upstream itself flags
+# with -Wa,-mbig-obj in tests/*/CMakeLists.txt (a proxy for a TU generating
+# enough symbols to need the extended object format), for targets this
+# package actually builds (eetf_test, example_json and jmespath carry the
+# same flag upstream but aren't built here). Where a directory has a sibling
+# deliberately kept small (eg. front_hash_test split out of json_reflection_test
+# to work around a GCC bug with large TUs), only the flagged file is named
+# explicitly rather than the whole directory.
+#
+tests/reflection/obj{enum_test reflection}: cc.serialize = true
+for [dir_path] d: tests/{*_conformance/ *_performance/}
+{
+  tests/$name($d)/obj{**}: cc.serialize = true
+}
+tests/json_test/obj{json_test json_variant_support_test}: cc.serialize = true
+tests/yaml_test/obj{**}: cc.serialize = true
+tests/csv_test/obj{csv_test}: cc.serialize = true
+tests/exceptions_test/obj{**}: cc.serialize = true
+tests/int_parsing/obj{**}: cc.serialize = true
+tests/json_reflection_test/obj{json_reflection_test}: cc.serialize = true
+tests/threading_test/obj{**}: cc.serialize = true
+tests/toml_reader_test/obj{**}: cc.serialize = true
+tests/toml_test/obj{toml_test}: cc.serialize = true
+tests/inplace_vector/obj{**}: cc.serialize = true
 
 # Common build options.
 #
